@@ -2,15 +2,21 @@
 <html>
 
 	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src = "jquery-1.10.2.min.js"></script>
 		<script src = "game.js"></script>
 		<title>Welcome to Mastermind!</title>
-
-	<body>
-
-		<canvas id = "board"></canvas>
-
-	</body>
-
 	</head>
+
+	<body onload = "loadPage()">
+		<h1>Mastermind!</h1>
+
+		<canvas id = "board" width = "350" height = "600"></canvas>
+		<br><br>
+		<div id = "check_guess_div">
+			<a href = # id = "check_guess" onclick = "checkGuess()">Check Guess</a>
+		</div>
+		
+	</body>
 
 </html>
