@@ -95,8 +95,51 @@ function drawCircle(x, y, radius, borderColor, fillColor, borderWidth) {
 	context.stroke();
 }
 
-function checkGuess() {
+function checkGuess(guess) {
 
+	if (guess == answer) {
+		// Winner winner chicken dinner
+		alert("You Win!");
+	} else {
+		// Variables to keep track of indices
+		redIndices = [];
+		whiteIndices = [];
+		usedForWhiteIndices = [];
+		
+		// Find colors in the exact right spot
+		for (var i = 0; i < 4; i++) {
+			if (guess[i] == answer[i]) {
+				redIndices.push(i);
+			}
+		}
+		
+		// Find correct colors in wrong spot
+		for (var i = 0; i < 4; i++) {
+			var answerIndex = $.inArray(guess[i], answer);
+			if ( answerIndex != -1) {
+				if (!($.inArray(answerIndex, redIndices))) {
+					if (!($.inArray(answerIndex, usedForWhiteIndices))) {
+						whiteIndices.push(i);
+						usedForWhiteIndices.push(answerIndex);
+					}
+				}
+			}
+		}
+		
+		// Create guessResult array
+		guessResult = [];
+		for (var i = 0; i < redIndices.length; i++) {
+			guessResult.push("red");
+		} 
+		for (var i = 0; i < whiteIndices.length; i++) {
+			guessResult.push("white");
+		}
+		for (var i = 0; i < (4 - guessResult.length); i++) {
+			guessResult.push(null);
+		}
+		
+		return guessResult;
+	}
 }
 
 function handleClick(canvas, event) {
