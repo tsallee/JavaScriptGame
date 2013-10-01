@@ -59,6 +59,39 @@ function loadPage() {
 	}
 
 	displayBoard();
+	displayAnswer();
+	var checkGuess = document.getElementById("check_guess");
+	checkGuess.innerHTML = "Check Guess";
+}
+
+function handleWin() {
+	alert("Congratulations, you win!");
+	displayAnswer();
+	var checkGuess = document.getElementById("check_guess");
+	checkGuess.innerHTML = "New Game";
+	checkGuess.onclick = function() {location.reload();}
+}
+
+function handleLose() {
+	alert("Sorry, you lose!");
+	displayAnswer();
+	var checkGuess = document.getElementById("check_guess");
+	checkGuess.innerHTML = "New Game";
+	checkGuess.onclick = function() {location.reload();}
+}
+
+function displayAnswer() {
+	var board = document.getElementById('board');
+	var pegs = rows[0].pegs;
+	var xOffset = board.width/6;
+	var xMultiplier = board.width / (pegs.length + 2);
+	var yOffset = board.height/16;
+	var yMultiplier = board.height / (rows.length + 2);
+	var radius = board.width / 18;
+	// Draws the answer row
+	for ( var i = 0; i < answer.length; i++ ) {
+		drawCircle(xOffset + pegs[i].column*xMultiplier, yOffset, radius, white, answer[i], 3, board);
+	}
 }
 
 function getMousePosition(canvas, event) {
@@ -84,6 +117,7 @@ function displayBoard() {
 	// Draws the answer row
 	for ( var i = 0; i < pegs.length; i++ ) {
 		drawCircle(xOffset + pegs[i].column*xMultiplier, yOffset, radius, white, gray, 3, board);
+		drawText("?", xOffset + pegs[i].column*xMultiplier - 7, yOffset + 8, 24, white, board);
 	}
 
 	radius = board.width / 20;
@@ -114,16 +148,15 @@ function displayBoard() {
 
 function checkGuess() {
 	var guessResult = getGuessResult();
-	alert(guessResult);
 	if (guessResult.length > 0) {
-		if (guessResult == ["red", "red", "red", "red"]) {
-			// You win
-			alert("You win!");
+		rows[currentRow].guessResult = guessResult;
+		if (guessResult[3] == red) {
+			displayBoard();
+			handleWin();
 		} else {
-			rows[currentRow].guessResult = guessResult;
 			if (currentRow == 0) {
-				// You lose!
-				alert("You lose!");
+				displayBoard();
+				handleLose();
 			} else {
 				currentRow--;
 				displayBoard();
@@ -157,13 +190,24 @@ function getGuessResult() {
 	
 	// Find correct colors in wrong spot
 	for (var i = 0; i < 4; i++) {
-		var answerIndex = answer.indexOf(guess[i]);
+		// Find guess color in answer that hasn't been used yet
+		var answerIndex = -1;
+		if (redIndices.indexOf(i) == -1) {
+			for (var j = 0; j < 4; j++) {
+				if (answer[j] == guess[i]) {
+					if (usedForWhiteIndices.indexOf(j) == -1) {
+						answerIndex = j;
+						break;
+					}
+				}
+			}
+		}
+		
+		// Add white peg and remove index from consideration
 		if ( answerIndex != -1) {
 			if (redIndices.indexOf(answerIndex) == -1) {
-				if (usedForWhiteIndices.indexOf(answerIndex) == -1) {
-					whiteIndices.push(i);
-					usedForWhiteIndices.push(answerIndex);
-				}
+				whiteIndices.push(i);
+				usedForWhiteIndices.push(answerIndex);
 			}
 		}
 	}
@@ -173,12 +217,12 @@ function getGuessResult() {
 	var times = redIndices.length;
 	for (var i = 0; i < times; i++) {
 		guessResult.push(red);
-	} 
+	}
 	times = whiteIndices.length;
 	for (var i = 0; i < times; i++) {
 		guessResult.push(white);
 	}
-	times = (4 - guessResult.length);
+	times = 4 - guessResult.length;
 	for (var i = 0; i < times; i++) {
 		guessResult.push(gray);
 	}
@@ -282,6 +326,13 @@ function drawCircle(x, y, radius, borderColor, fillColor, borderWidth, canvas) {
 	context.fillStyle = fillColor;
 	context.fill();
 	context.stroke();
+}
+
+function drawText(text, x, y, size, color, canvas) {
+	var context = canvas.getContext("2d");
+	context.fillStyle = color;
+	context.font = "bold "  + size + "px verdana";
+	context.fillText(text, x, y);
 }
 
 function clearCanvas(canvas) {
