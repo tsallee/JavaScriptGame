@@ -12,6 +12,8 @@ var green = "#088A08";
 var blue = "#5858FA";
 var cyan = "#58FAD0";
 var orange = "#FAAC58";
+var gray = "#848484";
+var white = "#E6E6E6";
 
 var colors = [red, pink, yellow, blue, lime, orange, cyan, green];
 var colorCircles = [];
@@ -45,12 +47,12 @@ function loadPage() {
 		var row =
 			{	
 				pegs : [
-					{color : "#848484", column : 0, x : xOffset + 0*xMultiplier, y : yOffset + i*yMultiplier },
-					{color : "#848484", column : 1, x : xOffset + 1*xMultiplier, y : yOffset + i*yMultiplier },
-					{color : "#848484", column : 2, x : xOffset + 2*xMultiplier, y : yOffset + i*yMultiplier },
-					{color : "#848484", column : 3, x : xOffset + 3*xMultiplier, y : yOffset + i*yMultiplier },
+					{color : gray, column : 0, x : xOffset + 0*xMultiplier, y : yOffset + i*yMultiplier },
+					{color : gray, column : 1, x : xOffset + 1*xMultiplier, y : yOffset + i*yMultiplier },
+					{color : gray, column : 2, x : xOffset + 2*xMultiplier, y : yOffset + i*yMultiplier },
+					{color : gray, column : 3, x : xOffset + 3*xMultiplier, y : yOffset + i*yMultiplier },
 				],
-				guessResult : ["#848484", "#848484", "#848484", "#848484"]
+				guessResult : [gray, gray, gray, gray]
 			}
 
 		rows[i] = row;
@@ -81,14 +83,14 @@ function displayBoard() {
 	
 	// Draws the answer row
 	for ( var i = 0; i < pegs.length; i++ ) {
-		drawCircle(xOffset + pegs[i].column*xMultiplier, yOffset, radius, "#E6E6E6", "#848484", 3, board);
+		drawCircle(xOffset + pegs[i].column*xMultiplier, yOffset, radius, white, gray, 3, board);
 	}
 
 	radius = board.width / 20;
 	yOffset = board.height/6;
 
 	for ( var i = 0; i < rows.length; i++ ) {
-		var fillColor = "#848484";
+		var fillColor = gray;
 		var borderWidth = 3;
 		if ( i == currentRow ) {
 			borderWidth = 5;
@@ -135,7 +137,7 @@ function getGuessResult() {
 	var row = rows[currentRow];
 	for ( var i = 0; i < numPegs; i++ ) {
 		guess.push(row.pegs[i].color);
-		if ( row.pegs[i].color == "#848484" ) {
+		if ( row.pegs[i].color == gray ) {
 			alert("Please select a color for each peg!");
 			return [];
 		}
@@ -170,15 +172,15 @@ function getGuessResult() {
 	guessResult = [];
 	var times = redIndices.length;
 	for (var i = 0; i < times; i++) {
-		guessResult.push("red");
+		guessResult.push(red);
 	} 
 	times = whiteIndices.length;
 	for (var i = 0; i < times; i++) {
-		guessResult.push("white");
+		guessResult.push(white);
 	}
 	times = (4 - guessResult.length);
 	for (var i = 0; i < times; i++) {
-		guessResult.push("#848484");
+		guessResult.push(gray);
 	}
 	
 	return guessResult;
@@ -257,10 +259,10 @@ function drawCircleWheel(selectedCircle, selectedColor) {
 		var xOffset = 2*radius*Math.cos(i);
 		var yOffset = 2*radius*Math.sin(i);
 		if (colors[colorCircles.length] == selectedColor) {
-			drawCircle(x + xOffset, y + yOffset, radius/1.5, "#E6E6E6", colors[colorCircles.length], 2.5, topCanvas);
+			drawCircle(x + xOffset, y + yOffset, radius/1.5, white, colors[colorCircles.length], 2.5, topCanvas);
 			drawCircle(x, y, radius, "black", colors[colorCircles.length], 5, topCanvas);
 		} else {
-			drawCircle(x + xOffset, y + yOffset, radius/2, "#E6E6E6", colors[colorCircles.length], 2.5, topCanvas);
+			drawCircle(x + xOffset, y + yOffset, radius/2, white, colors[colorCircles.length], 2.5, topCanvas);
 		}
 		var circle = { x: x + xOffset,
 					   y: y + yOffset,
