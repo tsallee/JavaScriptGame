@@ -9,15 +9,26 @@
 	</head>
 
 	<body onload = "loadPage()">
-		<h1>Mastermind!</h1>
+		<img src = "mastermind.png" id = "title">
+		<!--h1>in space</h1-->
 		<div id = "board_div">
-			<canvas id = "board" width = "300" height = "515"></canvas>
-			<canvas id = "top_canvas" width = "300" height = "515"></canvas>
+			<canvas id = "board" width = "350" height = "600"></canvas>
+			<canvas id = "top_canvas" width = "350" height = "600"></canvas>
 			<br><br>
 			<div id = "check_guess_div">
 				<a href = # id = "check_guess" onclick = "checkGuess()">Check Guess</a>
 			</div>
-		</div>		
+		</div>
+
+		<div id = "instructions">
+			<h2>Instructions</h2>
+			<p>Some cool instructions</p>
+		</div>
+
+		<div id = "controls">
+			<h2>Controls</h2>
+			<p>Some cool controls</p>
+		</div>
 	</body>
 
 </html>

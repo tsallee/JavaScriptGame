@@ -1,5 +1,4 @@
 ﻿body {
-	text-align: center;
 	font-family: verdana, arial, sans-serif;
 	background: url(space.png) no-repeat center center fixed; 
 	-webkit-background-size: cover;
@@ -8,22 +7,43 @@
 	background-size: cover;
 }
 
-#board_div {
-	margin-top: 60px;
-	position: relative;
-	left: 200px; width: 800px;
-	height: 100%;
-	background-color:rgba(115,195,252,0.3);
+h1 {
+	margin-top: 5px;
+	color: #E6E6E6;
+	position: absolute;
+	top: 0px; left: 30%;
+	font-size: 60px;
+	font-weight: bold;
 	z-index: 0;
 }
 
-h1 {
-	margin-top: 5px;
-	color: white;
-	position: absolute;
-	top: 0px; left: 40%;
-	font-size: 60px;
+h2 {
+	margin: 5px 0px 0px 5px;
 	font-weight: bold;
+	font-size: 28px;
+	color: #E6E6E6;
+}
+
+p {	
+	margin: 5px 0px 0px 7px;
+	font-weight: bold;
+	font-size: 18px;
+	color: #E6E6E6;
+}
+
+#title {
+	position: absolute;
+	top: 0px;
+	left: 620px;
+	z-index: 0;
+}
+
+#board_div {
+	margin-top: 50px;
+	position: relative;
+	left: 200px; width: 750px;
+	height: 90%;
+	/*background-color:rgba(115,195,252,0.3);*/
 	z-index: 0;
 }
 
@@ -50,7 +70,7 @@ h1 {
 
 #check_guess_div {
 	position: absolute;
-	top: 630px; left: 175px;
+	top: 710px; left: 200px;
 	width: 100%;
 	z-index: 0;
 	padding: 40px;
@@ -74,4 +94,23 @@ h1 {
 
 #check_guess:hover {
 	background: #045FB4;
+}
+
+#instructions, #controls {
+	width: 500px;
+	height: 260px;
+	left: 850px;
+	border-radius: 30px;
+	padding: 5px 20px 5px 20px;
+	position: absolute;
+	background-color:rgba(8,75,138,0.4);
+	z-index: 0;
+}
+
+#instructions {
+	top: 130px;
+}
+
+#controls {
+	top: 465px;
 }
