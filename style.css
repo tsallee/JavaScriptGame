@@ -31,6 +31,13 @@ p {
 	color: #E6E6E6;
 }
 
+#title {
+	position: absolute;
+	top: 0px;
+	left: 620px;
+	z-index: 0;
+}
+
 #board_div {
 	margin-top: 50px;
 	position: relative;
