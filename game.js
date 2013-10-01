@@ -23,7 +23,6 @@ function loadPage() {
 	for ( var i = 0; i < 4; i++ ) {
 		answer.push(colors[Math.floor(Math.random()*8)]);
 	}
-	alert(answer);
 	var board = document.getElementById('board');
 	var topCanvas = document.getElementById('top_canvas');
 	board.addEventListener('click', function(event) {
