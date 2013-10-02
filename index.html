@@ -1,4 +1,4 @@
-<!DOCTYPE HTML5>
+<!DOCTYPE html>
 <html>
 
 	<head>
@@ -9,25 +9,31 @@
 	</head>
 
 	<body onload = "loadPage()">
-		<img src = "mastermind.png" id = "title">
-		<!--h1>in space</h1-->
+		<img src = "mastermind.png" id = "title" alt = "Mastermind Image">
 		<div id = "board_div">
 			<canvas id = "board" width = "350" height = "600"></canvas>
 			<canvas id = "top_canvas" width = "350" height = "600"></canvas>
 			<br><br>
 			<div id = "check_guess_div">
-				<a href = # id = "check_guess" onclick = "checkGuess()">Check Guess</a>
+				<a href = "#" id = "check_guess" onclick = "checkGuess()">Check Guess</a>
 			</div>
 		</div>
 
 		<div id = "instructions">
 			<h2>Instructions</h2>
-			<p>Some cool instructions</p>
+			<p>
+				The objective of Mastermind is to solve the secret code in as few turns as possible. The code is composed of four colored pegs, chosen by the computer. These colored pegs may be any combination of the eight possible colors, and may include two or more of the same color.
+			</p>
+			<p>
+				You should attempt to match the code by placing four colored pegs onto the playing board. The computer provides feedback using the key dots. A red dot symbolizes that both the color and location of a peg is correct. A white dot symbolizes a peg of the correct color but a misplaced location. You have ten attempts to crack the code.
+			</p>
 		</div>
 
 		<div id = "controls">
 			<h2>Controls</h2>
-			<p>Some cool controls</p>
+			<p>
+				For the active row, click on a peg to assign it a color. After assigning all pegs a color, click the check guess button. Crack the code with as few turns as possible!
+			</p>
 		</div>
 	</body>
 

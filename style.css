@@ -22,7 +22,7 @@ h2 {
 }
 
 p {	
-	margin: 5px 0px 0px 7px;
+	margin: 5px 0px 15px 7px;
 	font-weight: bold;
 	font-size: 18px;
 	color: #E6E6E6;
@@ -95,19 +95,20 @@ p {
 
 #instructions, #controls {
 	width: 500px;
-	height: 260px;
 	left: 850px;
 	border-radius: 30px;
 	padding: 5px 20px 5px 20px;
 	position: absolute;
-	background-color:rgba(8,75,138,0.4);
+	background-color:rgba(8,75,138,0.6);
 	z-index: 0;
 }
 
 #instructions {
+	height: 400px;
 	top: 130px;
 }
 
 #controls {
-	top: 465px;
+	top: 570px;
+	height: 160px;
 }

@@ -1,6 +1,11 @@
+// Holds the rows of pegs
 var rows = [];
 
+// Which turn are we on
 var currentRow = 9;
+
+// Holds the solution code
+var answer = [];
 
 var numPegs = 4;
 var numRows = 10;
@@ -19,30 +24,39 @@ var colors = [red, pink, yellow, blue, lime, orange, cyan, green];
 var colorCircles = [];
 var selectedCircle = {x: null, y: null, radius: null}
 
-var answer = [];
-
+// Adds the elements to the rows array and displays the board.
 function loadPage() {
-	for ( var i = 0; i < 4; i++ ) {
+
+	// Creates a random answer	
+	for ( var i = 0; i < numPegs; i++ ) {
 		answer.push(colors[Math.floor(Math.random()*8)]);
 	}
+
 	var board = document.getElementById('board');
 	var topCanvas = document.getElementById('top_canvas');
+	
 	board.addEventListener('click', function(event) {
 		handleClick(board, event);
 	});
+	
 	topCanvas.addEventListener('click', function(event) {
 		handleClick(topCanvas, event);
 	});
+	
 	topCanvas.addEventListener('mousemove', function(event) {
 		handleHover(topCanvas, event);
+	});
+
+	board.addEventListener('mousemove', function(event) {
+		handleHover(board, event);
 	});
 
 	var xOffset = board.width/6;
 	var xMultiplier = board.width / (numPegs + 2);
 	var yOffset = board.height/6;
 	var yMultiplier = board.height / (numRows + 2);
-	
 
+	// Creates the rows array, assigning relevant information to each peg in each row.
 	for ( var i = 0; i < numRows; i++ ) {
 		var row =
 			{	
@@ -59,9 +73,6 @@ function loadPage() {
 	}
 
 	displayBoard();
-	displayAnswer();
-	var checkGuess = document.getElementById("check_guess");
-	checkGuess.innerHTML = "Check Guess";
 }
 
 function handleWin() {
@@ -80,6 +91,7 @@ function handleLose() {
 	checkGuess.onclick = function() {location.reload();}
 }
 
+// Called at the end of the game, so the player knows what the code was.
 function displayAnswer() {
 	var board = document.getElementById('board');
 	var pegs = rows[0].pegs;
@@ -88,12 +100,14 @@ function displayAnswer() {
 	var yOffset = board.height/16;
 	var yMultiplier = board.height / (rows.length + 2);
 	var radius = board.width / 18;
+	
 	// Draws the answer row
 	for ( var i = 0; i < answer.length; i++ ) {
 		drawCircle(xOffset + pegs[i].column*xMultiplier, yOffset, radius, white, answer[i], 3, board);
 	}
 }
 
+// Returns a slightly offset mouse coordinate from the default (because it's off-center)
 function getMousePosition(canvas, event) {
 	var rect = canvas.getBoundingClientRect();
 	var mousePosition = 
@@ -104,6 +118,7 @@ function getMousePosition(canvas, event) {
 	return mousePosition;
 }
 
+// Draws the board
 function displayBoard() {
 	var board = document.getElementById('board');
 	clearCanvas(board);
@@ -123,6 +138,7 @@ function displayBoard() {
 	radius = board.width / 20;
 	yOffset = board.height/6;
 
+	// Draws all of the pegs and the guess result circles ('dots')
 	for ( var i = 0; i < rows.length; i++ ) {
 		var fillColor = gray;
 		var borderWidth = 3;
@@ -146,6 +162,7 @@ function displayBoard() {
 	}
 }
 
+// Gets the result of the player's guess, and responds accordingly.
 function checkGuess() {
 	var guessResult = getGuessResult();
 	if (guessResult.length > 0) {
@@ -165,6 +182,8 @@ function checkGuess() {
 	}
 }
 
+// This function is the main logic behind the program. It processes a row of
+// colors and generates a guess and the guess result.
 function getGuessResult() {
 	guess = [];
 	var row = rows[currentRow];
@@ -230,17 +249,15 @@ function getGuessResult() {
 	return guessResult;
 }
 
+// Determines which canvas is active when the click happened and responds accordingly.
 function handleClick(canvas, event) {
 	var topCanvas = document.getElementById("top_canvas");
 	if ( topCanvas.style.display != "inline" ) {
 		var radius = board.width / 18;
 		var mousePosition = getMousePosition(canvas, event);
-		if ( mousePosition.y >= rows[currentRow].pegs[0].y - radius && mousePosition.y <= rows[currentRow].pegs[0].y + radius ) {
-			
-			for ( var i = 0; i < numPegs; i++ ) {
-				if (mouseInCircle(mousePosition.x, mousePosition.y, rows[currentRow].pegs[i].x, rows[currentRow].pegs[i].y, radius)) {
-					displayColors(rows[currentRow].pegs[i], radius);
-				}
+		for ( var i = 0; i < numPegs; i++ ) {
+			if (mouseInCircle(mousePosition.x, mousePosition.y, rows[currentRow].pegs[i].x, rows[currentRow].pegs[i].y, radius)) {
+				displayColors(rows[currentRow].pegs[i], radius);
 			}
 		}
 	} else {
@@ -255,14 +272,7 @@ function handleClick(canvas, event) {
 	}
 }
 
-function setPegColor(color) {
-	var topCanvas = document.getElementById("top_canvas");
-	selectedCircle.color = color;
-	displayBoard();
-	clearCanvas(topCanvas);
-	topCanvas.style.display = "none";
-}
-
+// Determines which canvas is active when the hover happened and responds accordingly.
 function handleHover(canvas, event) {
 	var topCanvas = document.getElementById("top_canvas");
 	var mousePosition = getMousePosition(canvas, event);
@@ -272,11 +282,20 @@ function handleHover(canvas, event) {
 			return;
 		}
 	}
-
 	drawCircleWheel(selectedCircle, null);
 
 }
 
+// Sets the color of the peg after the person clicks the color
+function setPegColor(color) {
+	var topCanvas = document.getElementById("top_canvas");
+	selectedCircle.color = color;
+	displayBoard();
+	clearCanvas(topCanvas);
+	topCanvas.style.display = "none";
+}
+
+// Determines if the mouse is in the given circle (passed in)
 function mouseInCircle(mouseX, mouseY, circleX, circleY, radius) {
 	var weirdOffset = 4;
 	mouseX = mouseX - weirdOffset;
@@ -284,6 +303,7 @@ function mouseInCircle(mouseX, mouseY, circleX, circleY, radius) {
 	return (Math.sqrt(Math.pow(Math.abs(mouseX-circleX), 2) + Math.pow(Math.abs(mouseY-circleY), 2)) <= radius+2);
 }
 
+// Displays the colors you can choose when a peg is clicked
 function displayColors(peg, radius) {
 	selectedCircle = peg;
 	selectedCircle.radius = radius;
@@ -292,6 +312,7 @@ function displayColors(peg, radius) {
 	$(topCanvas).fadeIn("slow");
 }
 
+// Actually draws the color wheel
 function drawCircleWheel(selectedCircle, selectedColor) {
 	var x = selectedCircle.x;
 	var y = selectedCircle.y;
@@ -317,6 +338,8 @@ function drawCircleWheel(selectedCircle, selectedColor) {
 	}
 }
 
+// We defined this because it's used a lot in our program
+// And it's not a built-in canvas function
 function drawCircle(x, y, radius, borderColor, fillColor, borderWidth, canvas) {
 	var context = canvas.getContext("2d");
 	context.beginPath();
@@ -328,6 +351,8 @@ function drawCircle(x, y, radius, borderColor, fillColor, borderWidth, canvas) {
 	context.stroke();
 }
 
+// We defined this because it's used a lot in our program
+// And it's not a built-in canvas function
 function drawText(text, x, y, size, color, canvas) {
 	var context = canvas.getContext("2d");
 	context.fillStyle = color;
@@ -335,6 +360,8 @@ function drawText(text, x, y, size, color, canvas) {
 	context.fillText(text, x, y);
 }
 
+// We defined this because it's used a lot in our program
+// And it's not a built-in canvas function
 function clearCanvas(canvas) {
 	var context = canvas.getContext('2d');
 	context.clearRect(0, 0, canvas.width, canvas.height);
