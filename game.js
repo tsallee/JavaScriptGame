@@ -215,8 +215,10 @@ function getGuessResult() {
 			for (var j = 0; j < 4; j++) {
 				if (answer[j] == guess[i]) {
 					if (usedForWhiteIndices.indexOf(j) == -1) {
-						answerIndex = j;
-						break;
+						if (redIndices.indexOf(j) == -1) {
+							answerIndex = j;
+							break;
+						}
 					}
 				}
 			}
@@ -224,10 +226,8 @@ function getGuessResult() {
 		
 		// Add white peg and remove index from consideration
 		if ( answerIndex != -1) {
-			if (redIndices.indexOf(answerIndex) == -1) {
-				whiteIndices.push(i);
-				usedForWhiteIndices.push(answerIndex);
-			}
+			whiteIndices.push(i);
+			usedForWhiteIndices.push(answerIndex);
 		}
 	}
 	
